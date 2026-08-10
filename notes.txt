@@ -1,0 +1,34 @@
+- Values of interest found while debugging:
+3898567437, 2295136008, 392736999, 2409475058, 3376453967, 2823519739
+
+
+-> check if NR pointer chain below is used in ER as well
+
+
+
+# NR
+====
+- valid hashes appear in a couple of locations (more once inside the game world)
+- one of them is read by nightreign.AK::SoundEngine::RegisterPluginDLL+866
+- stepping out => @0x255dc8a
+- RDI +0x80
+- allowlist at +0x574 - 0xa24 (incl)
+- each element 12 bytes
+- first value is 0
+- (BgmPlaceType at 0xa30 - 0xb14 (incl), first TWO elements are 0)
+
+- stepping out => @255fa90
+- manager object passed in via RCX
+- hash passed in via RDX
+- verification struct at +0x10
+	- full chain: arg1 -> 0x10 -> 0x80 +0x574
+
+=> This is the actual representation of the MusicSwitchContainer and thus useless - but why does it not contain the bgm enemy type...?
+
+=> static pointer chain?: 46f70c0 -> 28 -> ce0 -> 90 -> ~580
+- pointer at +28 is set from two locations:
+  - 1402c78c9 (grows wwise hashmap?)
+  - SetRTPCInternal+5f96
+- 2c78c9 is called by AkRuntimeEnvironmentMgr
+- top?: 1409d08a8
+=> check 7FF76B04FCBF (call from nightreign.g_pAKPluginList+2bb0)

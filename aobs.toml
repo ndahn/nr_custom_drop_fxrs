@@ -1,0 +1,4 @@
+[[patterns]]
+# 1.3.2: ee35c0
+pattern = "0FB7C2 FFC8 83F856 0F87 [4] 4c8d"
+captures = ["GET_WEAPON_FXR_RVA"]
