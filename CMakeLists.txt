@@ -33,6 +33,8 @@ FetchContent_MakeAvailable(elden-x yaml-cpp)
 
 add_library(custom_drop_fxrs SHARED
   src/dllmain.cpp)
+set_property(TARGET custom_drop_fxrs PROPERTY
+  MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 target_include_directories(custom_drop_fxrs PRIVATE src)
 
